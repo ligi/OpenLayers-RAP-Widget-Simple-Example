@@ -49,6 +49,10 @@ public class Application implements IEntryPoint {
 		shell.setText( "OpenLayers Simple Example" );
 		OpenLayers  map = new OpenLayers( shell, SWT.NONE );
 		map.addWMS("polymap", "polymap", "http://www.polymap.de/geoserver/wms?", "states");
+		map.setZoom(3);
+		map.setLatitude(40.0);
+		map.setLongitude(-100.0);
+		
 		shell.setSize( 500, 500 );
 
 		shell.open();
