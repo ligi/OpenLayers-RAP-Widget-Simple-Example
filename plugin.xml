@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
    <extension
          point="org.eclipse.rap.ui.entrypoint">
       <entrypoint
@@ -10,4 +9,4 @@
             id="openlayers_rap_simple_example.Application">
       </entrypoint>
    </extension>
-  </plugin>
+</plugin>
