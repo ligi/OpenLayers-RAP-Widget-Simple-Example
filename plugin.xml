@@ -10,13 +10,4 @@
             id="openlayers_rap_simple_example.Application">
       </entrypoint>
    </extension>
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            name="RAP Perspective"
-            class="openlayers_rap_simple_example.Perspective"
-            id="OpenLayers_RAP_Simple_Example.perspective">
-      </perspective>
-   </extension>
-
-</plugin>
+  </plugin>
