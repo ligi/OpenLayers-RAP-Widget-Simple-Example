@@ -49,8 +49,17 @@ public class Application implements IEntryPoint {
 		shell.setText( "OpenLayers Simple Example" );
 		OpenLayers  map = new OpenLayers( shell, SWT.NONE );
 		map.addWMS("polymap", "polymap", "http://www.polymap.de/geoserver/wms?", "states");
+
+		// set Zoom and Center
 		map.zoomTo(3);
 		map.setCenter(-100.0, 40.0);
+		
+		// add some controls
+		map.addControl(" OpenLayers.Control.LayerSwitcher()");
+		map.addControl(" OpenLayers.Control.MouseDefaults()");
+		map.addControl(" OpenLayers.Control.KeyboardDefaults()");
+		map.addControl(" OpenLayers.Control.PanZoomBar()");
+		
 		
 		shell.setSize( 500, 500 );
 
