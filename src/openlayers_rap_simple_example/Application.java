@@ -55,10 +55,10 @@ public class Application implements IEntryPoint {
 		map.setCenter(-100.0, 40.0);
 		
 		// add some controls
-		map.addControl(" OpenLayers.Control.LayerSwitcher()");
-		map.addControl(" OpenLayers.Control.MouseDefaults()");
-		map.addControl(" OpenLayers.Control.KeyboardDefaults()");
-		map.addControl(" OpenLayers.Control.PanZoomBar()");
+		map.addControl("OpenLayers.Control.LayerSwitcher()");
+		map.addControl("OpenLayers.Control.MouseDefaults()");
+		map.addControl("OpenLayers.Control.KeyboardDefaults()");
+		map.addControl("OpenLayers.Control.PanZoomBar()");
 		
 		
 		shell.setSize( 500, 500 );
