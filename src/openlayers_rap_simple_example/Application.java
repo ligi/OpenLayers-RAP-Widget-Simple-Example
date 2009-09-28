@@ -18,12 +18,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  *
- * $Id: $
- *
- * @author 	Marcus -LiGi- Bueschleb
- * 	mail to 		ligi (at) polymap (dot) de
- *                  
- * @version $Revision: $
  */
 
 package openlayers_rap_simple_example;
@@ -33,12 +27,18 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.polymap.rap.widget.openlayers.OpenLayers;
+import org.polymap.rap.widget.openlayers.*;
+import org.polymap.rap.widget.openlayers.layers.*;
+import org.polymap.rap.widget.openlayers.controls.*;
+
 
 /**
- * This class controls all aspects of the application's execution
- * and is contributed through the plugin.xml.
- */
+ * Simple Example on how to use the OpenLayers RAP Widget 
+ * 
+ *  @author Marcus -LiGi- B&uuml;schleb < mail:	ligi (at) polymap (dot) de >
+ *
+*/
+
 public class Application implements IEntryPoint {
 
 	public int createUI() {
@@ -48,18 +48,25 @@ public class Application implements IEntryPoint {
 		shell.setLayout( new FillLayout() );
 		shell.setText( "OpenLayers Simple Example" );
 		OpenLayers  map = new OpenLayers( shell, SWT.NONE );
-		map.addWMS("polymap", "polymap", "http://www.polymap.de/geoserver/wms?", "states");
 
+		// create and add a WMS layer
+		WMSLayer wms_layer=new WMSLayer(map,"polymap", "http://www.polymap.de/geoserver/wms?", "states");
+		map.addLayer(wms_layer);
+		
 		// set Zoom and Center
 		map.zoomTo(3);
 		map.setCenter(-100.0, 40.0);
 		
 		// add some controls
-		map.addControl("OpenLayers.Control.LayerSwitcher()");
-		map.addControl("OpenLayers.Control.MouseDefaults()");
-		map.addControl("OpenLayers.Control.KeyboardDefaults()");
-		map.addControl("OpenLayers.Control.PanZoomBar()");
-		
+		map.addControl(new LayerSwitcherControl(map));
+		map.addControl(new MouseDefaultsControl(map));
+		map.addControl(new KeyboardDefaultsControl(map));
+		map.addControl(new PanZoomBarControl(map));
+	
+		VectorLayer vl=new VectorLayer(map,"edit layer");
+		map.addLayer(vl);
+	
+		map.addControl(new EditingToolbarControl(map,vl));
 		
 		shell.setSize( 500, 500 );
 
