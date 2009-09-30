@@ -29,6 +29,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.polymap.rap.widget.openlayers.*;
 import org.polymap.rap.widget.openlayers.layers.*;
+import org.polymap.rap.widget.openlayers.base_types.Bounds;
+import org.polymap.rap.widget.openlayers.base_types.Size;
 import org.polymap.rap.widget.openlayers.controls.*;
 
 
@@ -62,11 +64,17 @@ public class Application implements IEntryPoint {
 		map.addControl(new MouseDefaultsControl(map));
 		map.addControl(new KeyboardDefaultsControl(map));
 		map.addControl(new PanZoomBarControl(map));
-	
+
 		VectorLayer vl=new VectorLayer(map,"edit layer");
 		map.addLayer(vl);
 	
 		map.addControl(new EditingToolbarControl(map,vl));
+		
+		Bounds bounds = new Bounds(map,-180, -88.759, 180, 88.759);
+		Size size = new Size(map,580, 288);
+		ImageLayer image_layer = new ImageLayer(map,"image layer","http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif",bounds,size);
+		map.addLayer(image_layer);
+
 		
 		shell.setSize( 500, 500 );
 
