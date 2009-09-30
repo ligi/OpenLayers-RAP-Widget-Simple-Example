@@ -55,7 +55,7 @@ public class Application implements IEntryPoint {
 		OpenLayers  map = new OpenLayers( shell, SWT.NONE );
 
 		// create and add a WMS layer
-		WMSLayer wms_layer=new WMSLayer(map,"polymap", "http://www.polymap.de/geoserver/wms?", "states");
+		WMSLayer wms_layer=new WMSLayer("polymap", "http://www.polymap.de/geoserver/wms?", "states");
 		map.addLayer(wms_layer);
 		
 		// set Zoom and Center
@@ -63,22 +63,22 @@ public class Application implements IEntryPoint {
 		map.setCenter(-100.0, 40.0);
 		
 		// add some controls
-		map.addControl(new LayerSwitcherControl(map));
-		map.addControl(new MouseDefaultsControl(map));
-		map.addControl(new KeyboardDefaultsControl(map));
-		map.addControl(new PanZoomBarControl(map));
+		map.addControl(new LayerSwitcherControl());
+		map.addControl(new MouseDefaultsControl());
+		map.addControl(new KeyboardDefaultsControl());
+		map.addControl(new PanZoomBarControl());
 
 		// add vector layer to have a layer the user can edit
-		VectorLayer vl=new VectorLayer(map,"edit layer");
+		VectorLayer vl=new VectorLayer("edit layer");
 		map.addLayer(vl);
 	
 		// adding edit control for the vector layer created above
-		map.addControl(new EditingToolbarControl(map,vl));
+		map.addControl(new EditingToolbarControl(vl));
 		
 		// add a ImageLayer with external URL
-		Bounds bounds = new Bounds(map,-180, -88.759, 180, 88.759);
-		Size size = new Size(map,580, 288);
-		ImageLayer image_layer = new ImageLayer(map,"image layer ext","http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif",bounds,size);
+		Bounds bounds = new Bounds(-180, -88.759, 180, 88.759);
+		Size size = new Size(580, 288);
+		ImageLayer image_layer = new ImageLayer("image layer ext","http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif",bounds,size);
 		map.addLayer(image_layer);
 
 		shell.setSize( 500, 500 );
