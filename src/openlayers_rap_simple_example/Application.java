@@ -45,10 +45,13 @@ public class Application implements IEntryPoint {
 
 	public int createUI() {
 
+		// prepare the shell
 		Display display = new Display();
 		Shell shell = new Shell( display, SWT.SHELL_TRIM );
 		shell.setLayout( new FillLayout() );
 		shell.setText( "OpenLayers Simple Example" );
+		
+		// create the OpenLayers widget
 		OpenLayers  map = new OpenLayers( shell, SWT.NONE );
 
 		// create and add a WMS layer
@@ -65,20 +68,22 @@ public class Application implements IEntryPoint {
 		map.addControl(new KeyboardDefaultsControl(map));
 		map.addControl(new PanZoomBarControl(map));
 
+		// add vector layer to have a layer the user can edit
 		VectorLayer vl=new VectorLayer(map,"edit layer");
 		map.addLayer(vl);
 	
+		// adding edit control for the vector layer created above
 		map.addControl(new EditingToolbarControl(map,vl));
 		
+		// add a ImageLayer with external URL
 		Bounds bounds = new Bounds(map,-180, -88.759, 180, 88.759);
 		Size size = new Size(map,580, 288);
-		ImageLayer image_layer = new ImageLayer(map,"image layer","http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif",bounds,size);
+		ImageLayer image_layer = new ImageLayer(map,"image layer ext","http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif",bounds,size);
 		map.addLayer(image_layer);
 
-		
 		shell.setSize( 500, 500 );
-
 		shell.open();
+
 		while( !shell.isDisposed()) {
 			if( !display.readAndDispatch() ) 
 				display.sleep();
