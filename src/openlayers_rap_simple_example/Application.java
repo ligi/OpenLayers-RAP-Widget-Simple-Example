@@ -34,6 +34,7 @@ import org.polymap.rap.widget.openlayers.layers.*;
 import org.polymap.rap.widget.openlayers.base_types.Bounds;
 import org.polymap.rap.widget.openlayers.base_types.Size;
 import org.polymap.rap.widget.openlayers.controls.*;
+import org.polymap.rap.widget.openlayers.features.VectorFeature;
 
 
 /**
@@ -57,7 +58,7 @@ public class Application implements IEntryPoint {
 		OpenLayers  map = new OpenLayers( shell, SWT.NONE );
 
 		// create and add a WMS layer
-		WMSLayer wms_layer=new WMSLayer("polymap", "http://www.polymap.de/geoserver/wms?", "states");
+		WMSLayer wms_layer=new WMSLayer("polymap WMS", "http://www.polymap.de/geoserver/wms?", "states");
 		map.addLayer(wms_layer);
 		
 		// set Zoom and Center
@@ -76,6 +77,19 @@ public class Application implements IEntryPoint {
 	
 		// adding edit control for the vector layer created above
 		map.addControl(new EditingToolbarControl(vl));
+		
+		// add vector layer with some boxes to demonstrate the select feature
+		VectorLayer vl2=new VectorLayer("selectable boxes");
+		map.addLayer(vl2);
+	
+		VectorFeature vector_feature=new VectorFeature(new Bounds(-100,40,-80,60));
+		vl2.addFeatures(vector_feature);
+		vector_feature=new VectorFeature(new Bounds(-90,70,-60,80));
+		vl2.addFeatures(vector_feature);
+		
+		SelectFeatureControl sfc=new SelectFeatureControl(vl2);
+		map.addControl(sfc);
+		sfc.activate();
 		
 		// add a ImageLayer with external URL
 		Bounds bounds = new Bounds(-180, -88.759, 180, 88.759);
