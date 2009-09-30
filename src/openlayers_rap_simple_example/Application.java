@@ -22,8 +22,10 @@
 
 package openlayers_rap_simple_example;
 
+import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.rwt.lifecycle.IEntryPoint;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -81,6 +83,11 @@ public class Application implements IEntryPoint {
 		ImageLayer image_layer = new ImageLayer("image layer ext","http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif",bounds,size);
 		map.addLayer(image_layer);
 
+		// add a ImageLayer with internal URL
+		Image image = Graphics.getImage("res/polymap_logo.png", getClass().getClassLoader());
+		ImageLayer image_layer_int= new ImageLayer("image layer int",image,bounds);
+		map.addLayer(image_layer_int);
+		
 		shell.setSize( 500, 500 );
 		shell.open();
 
