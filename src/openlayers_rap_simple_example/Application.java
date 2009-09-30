@@ -78,7 +78,7 @@ public class Application implements IEntryPoint {
 		// adding edit control for the vector layer created above
 		map.addControl(new EditingToolbarControl(vl));
 		
-		// add vector layer with some boxes to demonstrate the select feature
+		// add vector layer with some boxes to demonstrate the modify feature feature
 		VectorLayer vl2=new VectorLayer("selectable boxes");
 		map.addLayer(vl2);
 	
@@ -87,9 +87,15 @@ public class Application implements IEntryPoint {
 		vector_feature=new VectorFeature(new Bounds(-90,70,-60,80));
 		vl2.addFeatures(vector_feature);
 		
-		SelectFeatureControl sfc=new SelectFeatureControl(vl2);
-		map.addControl(sfc);
-		sfc.activate();
+		// setting up the Modify Feature Control
+		ModifyFeatureControl mfc=new ModifyFeatureControl(vl2);
+		
+		mfc.addMode(ModifyFeatureControl.DRAG);
+		mfc.addMode(ModifyFeatureControl.RESHAPE);
+		mfc.addMode(ModifyFeatureControl.ROTATE);
+		
+		map.addControl(mfc);
+		mfc.activate();
 		
 		// add a ImageLayer with external URL
 		Bounds bounds = new Bounds(-180, -88.759, 180, 88.759);
