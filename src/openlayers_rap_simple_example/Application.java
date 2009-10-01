@@ -31,7 +31,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.polymap.rap.widget.openlayers.*;
 import org.polymap.rap.widget.openlayers.layers.*;
+import org.polymap.rap.widget.openlayers.marker.BoxMarker;
+import org.polymap.rap.widget.openlayers.marker.IconMarker;
 import org.polymap.rap.widget.openlayers.base_types.Bounds;
+import org.polymap.rap.widget.openlayers.base_types.Icon;
+import org.polymap.rap.widget.openlayers.base_types.LonLat;
+import org.polymap.rap.widget.openlayers.base_types.Pixel;
 import org.polymap.rap.widget.openlayers.base_types.Size;
 import org.polymap.rap.widget.openlayers.controls.*;
 import org.polymap.rap.widget.openlayers.features.VectorFeature;
@@ -96,6 +101,25 @@ public class Application implements IEntryPoint {
 		
 		map.addControl(mfc);
 		mfc.activate();
+		
+		// showing box_layer
+		BoxMarker bm =new BoxMarker(new Bounds(-120, 23 , -100,42));
+		BoxLayer bl =new BoxLayer("box layer");
+		bl.addMarker(bm);
+		map.addLayer(bl);
+
+		// show IconMarkers
+		MarkersLayer ml=new MarkersLayer("icon markers");
+		map.addLayer(ml);
+		
+		// icon marker with default icon-image
+		IconMarker im=new IconMarker(new LonLat(-100,50));
+		ml.addMarker(im);
+		
+		// icon marker with custom image
+		Icon ico = new Icon( "http://www.mensus.net/img/icons/google/aqua.png" , new Size(10,17),new Pixel(0,0)  );
+		IconMarker im2=new IconMarker(new LonLat(-110,60),ico);
+		ml.addMarker(im2);
 		
 		// add a ImageLayer with external URL
 		Bounds bounds = new Bounds(-180, -88.759, 180, 88.759);
