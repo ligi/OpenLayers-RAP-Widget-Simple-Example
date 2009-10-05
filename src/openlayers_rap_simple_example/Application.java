@@ -22,6 +22,8 @@
 
 package openlayers_rap_simple_example;
 
+import java.util.HashMap;
+
 import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.rwt.lifecycle.IEntryPoint;
 import org.eclipse.swt.SWT;
@@ -33,6 +35,7 @@ import org.polymap.rap.widget.openlayers.*;
 import org.polymap.rap.widget.openlayers.layers.*;
 import org.polymap.rap.widget.openlayers.marker.BoxMarker;
 import org.polymap.rap.widget.openlayers.marker.IconMarker;
+import org.polymap.rap.widget.openlayers.base.OpenLayersEventListener;
 import org.polymap.rap.widget.openlayers.base_types.Bounds;
 import org.polymap.rap.widget.openlayers.base_types.Icon;
 import org.polymap.rap.widget.openlayers.base_types.LonLat;
@@ -49,8 +52,17 @@ import org.polymap.rap.widget.openlayers.features.VectorFeature;
  *
 */
 
-public class Application implements IEntryPoint {
+public class Application implements IEntryPoint,OpenLayersEventListener {
 
+
+	private OpenLayers map;
+	
+	public void process_event(String event_name,HashMap<String,String> payload)
+	{
+		if (event_name.equals("changebaselayer"))
+			System.out.println("client changed baselayer to '" + payload.get("layername") +"'");
+	}
+	
 	public int createUI() {
 
 		// prepare the shell
@@ -60,8 +72,11 @@ public class Application implements IEntryPoint {
 		shell.setText( "OpenLayers Simple Example" );
 		
 		// create the OpenLayers widget
-		OpenLayers  map = new OpenLayers( shell, SWT.NONE );
+		map = new OpenLayers( shell, SWT.NONE );
 
+		HashMap <String, String > payload_map=new HashMap<String, String>();
+		payload_map.put("layername", "event.layer.name");
+		map.events.register(this,"changebaselayer",payload_map);
 		// create and add a WMS layer
 		WMSLayer wms_layer=new WMSLayer("polymap WMS", "http://www.polymap.de/geoserver/wms?", "states");
 		map.addLayer(wms_layer);
