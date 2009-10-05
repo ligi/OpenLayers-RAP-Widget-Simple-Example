@@ -79,7 +79,8 @@ public class Application implements IEntryPoint {
 		// add vector layer to have a layer the user can edit
 		VectorLayer vl=new VectorLayer("edit layer");
 		map.addLayer(vl);
-	
+		vl.setVisibility(false);
+		
 		// adding edit control for the vector layer created above
 		map.addControl(new EditingToolbarControl(vl));
 		
@@ -91,6 +92,8 @@ public class Application implements IEntryPoint {
 		vl2.addFeatures(vector_feature);
 		vector_feature=new VectorFeature(new Bounds(-90,70,-60,80));
 		vl2.addFeatures(vector_feature);
+		
+		vl2.setVisibility(false);
 		
 		// setting up the Modify Feature Control
 		ModifyFeatureControl mfc=new ModifyFeatureControl(vl2);
@@ -107,10 +110,12 @@ public class Application implements IEntryPoint {
 		BoxLayer bl =new BoxLayer("box layer");
 		bl.addMarker(bm);
 		map.addLayer(bl);
-
+		bl.setVisibility(false);
+		
 		// show IconMarkers
 		MarkersLayer ml=new MarkersLayer("icon markers");
 		map.addLayer(ml);
+		ml.setVisibility(false);
 		
 		// icon marker with default icon-image
 		IconMarker im=new IconMarker(new LonLat(-100,50));
@@ -121,12 +126,13 @@ public class Application implements IEntryPoint {
 		IconMarker im2=new IconMarker(new LonLat(-110,60),ico);
 		ml.addMarker(im2);
 		
+		
 		// add a ImageLayer with external URL
 		Bounds bounds = new Bounds(-180, -88.759, 180, 88.759);
 		Size size = new Size(580, 288);
 		ImageLayer image_layer = new ImageLayer("image layer ext","http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif",bounds,size);
 		map.addLayer(image_layer);
-
+		
 		// add a ImageLayer with internal URL
 		Image image = Graphics.getImage("res/polymap_logo.png", getClass().getClassLoader());
 		ImageLayer image_layer_int= new ImageLayer("image layer int",image,bounds);
