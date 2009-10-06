@@ -44,7 +44,6 @@ import org.polymap.rap.widget.openlayers.base_types.Size;
 import org.polymap.rap.widget.openlayers.controls.*;
 import org.polymap.rap.widget.openlayers.features.VectorFeature;
 
-
 /**
  * Simple Example on how to use the OpenLayers RAP Widget 
  * 
@@ -54,7 +53,6 @@ import org.polymap.rap.widget.openlayers.features.VectorFeature;
 
 public class Application implements IEntryPoint,OpenLayersEventListener {
 
-
 	private OpenLayers map;
 	private VectorLayer edit_layer;
 	private EditingToolbarControl edit_toolbar;
@@ -62,8 +60,7 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 	public void process_event(String event_name,HashMap<String,String> payload) {
 		if (event_name.equals("changebaselayer"))
 			System.out.println("client changed baselayer to '" + payload.get("layername") +"' " + payload.get("property"));
-		else if (event_name.equals("changelayer"))
-			{
+		else if (event_name.equals("changelayer")) {
 			System.out.println("client changed layer '" + payload.get("layername") +"' " + payload.get("property") +"' " + payload.get("visibility"));
 			if (payload.get("property").equals("visibility")) {
 					Boolean visible=payload.get("visibility").equals("true");
@@ -79,7 +76,6 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 						}
 					}
 				}
-			
 			}
 		else 
 			System.out.println("unknown event " + event_name);
@@ -98,7 +94,6 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 
 		HashMap <String, String > payload_map=new HashMap<String, String>();
 		payload_map.put("layername", "event.layer.name");
-		
 		
 		map.events.register(this,"changebaselayer",payload_map);
 		
@@ -167,7 +162,6 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 		Icon ico = new Icon( "http://www.mensus.net/img/icons/google/aqua.png" , new Size(10,17),new Pixel(0,0)  );
 		IconMarker im2=new IconMarker(new LonLat(-110,60),ico);
 		ml.addMarker(im2);
-		
 		
 		// add a ImageLayer with external URL
 		Bounds bounds = new Bounds(-180, -88.759, 180, 88.759);
