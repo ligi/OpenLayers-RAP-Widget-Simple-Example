@@ -47,7 +47,7 @@ import org.polymap.rap.widget.openlayers.features.VectorFeature;
 /**
  * Simple Example on how to use the OpenLayers RAP Widget 
  * 
- *  @author Marcus -LiGi- B&uuml;schleb < mail:	ligi (at) polymap (dot) de >
+ *  @author Marcus -LiGi- B&uuml;schleb < mail: ligi (at) polymap (dot) de >
  *
 */
 
@@ -69,6 +69,10 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 							// adding edit control for the vector layer created above
 							edit_toolbar=new EditingToolbarControl(edit_layer);
 							map.addControl(edit_toolbar);
+							SnappingControl snap_ctrl=new SnappingControl(edit_layer, edit_layer, false);
+							snap_ctrl.activate();
+							map.addControl(snap_ctrl);
+							
 							}
 						else	{ 
 							edit_toolbar.deactivate();
