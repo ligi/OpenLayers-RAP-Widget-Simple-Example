@@ -56,11 +56,33 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 
 
 	private OpenLayers map;
+	private VectorLayer edit_layer;
+	private EditingToolbarControl edit_toolbar;
 	
-	public void process_event(String event_name,HashMap<String,String> payload)
-	{
+	public void process_event(String event_name,HashMap<String,String> payload) {
 		if (event_name.equals("changebaselayer"))
-			System.out.println("client changed baselayer to '" + payload.get("layername") +"'");
+			System.out.println("client changed baselayer to '" + payload.get("layername") +"' " + payload.get("property"));
+		else if (event_name.equals("changelayer"))
+			{
+			System.out.println("client changed layer '" + payload.get("layername") +"' " + payload.get("property") +"' " + payload.get("visibility"));
+			if (payload.get("property").equals("visibility")) {
+					Boolean visible=payload.get("visibility").equals("true");
+					if (payload.get("layername").equals(edit_layer.getName())  )  {
+						if (visible)	{
+							// adding edit control for the vector layer created above
+							edit_toolbar=new EditingToolbarControl(edit_layer);
+							map.addControl(edit_toolbar);
+							}
+						else	{ 
+							edit_toolbar.deactivate();
+							map.removeControl(edit_toolbar);
+						}
+					}
+				}
+			
+			}
+		else 
+			System.out.println("unknown event " + event_name);
 	}
 	
 	public int createUI() {
@@ -76,7 +98,15 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 
 		HashMap <String, String > payload_map=new HashMap<String, String>();
 		payload_map.put("layername", "event.layer.name");
+		
+		
 		map.events.register(this,"changebaselayer",payload_map);
+		
+		payload_map.put("property", "event.property");
+		payload_map.put("visibility", "event.layer.visibility");
+		
+		map.events.register(this,"changelayer",payload_map);
+		
 		// create and add a WMS layer
 		WMSLayer wms_layer=new WMSLayer("polymap WMS", "http://www.polymap.de/geoserver/wms?", "states");
 		map.addLayer(wms_layer);
@@ -92,12 +122,9 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 		map.addControl(new PanZoomBarControl());
 
 		// add vector layer to have a layer the user can edit
-		VectorLayer vl=new VectorLayer("edit layer");
-		map.addLayer(vl);
-		vl.setVisibility(false);
-		
-		// adding edit control for the vector layer created above
-		map.addControl(new EditingToolbarControl(vl));
+		edit_layer=new VectorLayer("edit layer");
+		map.addLayer(edit_layer);
+		edit_layer.setVisibility(false);
 		
 		// add vector layer with some boxes to demonstrate the modify feature feature
 		VectorLayer vl2=new VectorLayer("selectable boxes");
