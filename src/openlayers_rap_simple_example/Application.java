@@ -133,9 +133,9 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 		selectable_boxes_layer=new VectorLayer("selectable boxes");
 		map.addLayer(selectable_boxes_layer);
 	
-		VectorFeature vector_feature=new VectorFeature(new Bounds(-100,40,-80,60));
+		VectorFeature vector_feature=new VectorFeature(new Bounds(-100,40,-80,60).toGeometry());
 		selectable_boxes_layer.addFeatures(vector_feature);
-		vector_feature=new VectorFeature(new Bounds(-90,70,-60,80));
+		vector_feature=new VectorFeature(new Bounds(-90,70,-60,80).toGeometry());
 		selectable_boxes_layer.addFeatures(vector_feature);
 		
 		selectable_boxes_layer.setVisibility(false);
@@ -150,8 +150,18 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 		vector_feature=new VectorFeature(new PointGeometry(-85,50),point_style_red);
 		styled_features_layer.addFeatures(vector_feature);
 		
+		Style poly_style = new Style();
+		poly_style.setAttribute("fillColor","blue");
+		poly_style.setAttribute("strokeColor","black");
+		poly_style.setAttribute("strokeDashstyle","dashdot");
+		
+		vector_feature=new VectorFeature(new Bounds(-120,23,-100,42).toGeometry(),poly_style);
+		styled_features_layer.addFeatures(vector_feature);
+		
 		Style point_style_green = new Style();
 		point_style_green.setAttribute("fillColor","#00FF00");
+		point_style_green.setAttribute("pointRadius",20);
+		
 		
 		vector_feature=new VectorFeature(new PointGeometry(-95,65),point_style_green);
 		styled_features_layer.addFeatures(vector_feature);
