@@ -41,8 +41,10 @@ import org.polymap.rap.widget.openlayers.base_types.Icon;
 import org.polymap.rap.widget.openlayers.base_types.LonLat;
 import org.polymap.rap.widget.openlayers.base_types.Pixel;
 import org.polymap.rap.widget.openlayers.base_types.Size;
+import org.polymap.rap.widget.openlayers.base_types.Style;
 import org.polymap.rap.widget.openlayers.controls.*;
 import org.polymap.rap.widget.openlayers.features.VectorFeature;
+import org.polymap.rap.widget.openlayers.geometry.PointGeometry;
 
 /**
  * Simple Example on how to use the OpenLayers RAP Widget 
@@ -137,6 +139,22 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 		selectable_boxes_layer.addFeatures(vector_feature);
 		
 		selectable_boxes_layer.setVisibility(false);
+		
+		// add vector layer to show how to style a feature
+		VectorLayer styled_features_layer = new VectorLayer("styled Features");
+		map.addLayer(styled_features_layer);
+		
+		Style point_style_red = new Style();
+		point_style_red.setAttribute("fillColor","#FF0000");
+		
+		vector_feature=new VectorFeature(new PointGeometry(-85,50),point_style_red);
+		styled_features_layer.addFeatures(vector_feature);
+		
+		Style point_style_green = new Style();
+		point_style_green.setAttribute("fillColor","#00FF00");
+		
+		vector_feature=new VectorFeature(new PointGeometry(-95,65),point_style_green);
+		styled_features_layer.addFeatures(vector_feature);
 		
 		// setting up the Modify Feature Control
 		ModifyFeatureControl mfc=new ModifyFeatureControl(selectable_boxes_layer);
