@@ -56,6 +56,7 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 	private OpenLayers map;
 	private VectorLayer edit_layer;
 	private EditingToolbarControl edit_toolbar;
+	private VectorLayer selectable_boxes_layer;
 	
 	public void process_event(String event_name,HashMap<String,String> payload) {
 		if (event_name.equals("changebaselayer"))
@@ -69,7 +70,8 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 							// adding edit control for the vector layer created above
 							edit_toolbar=new EditingToolbarControl(edit_layer);
 							map.addControl(edit_toolbar);
-							SnappingControl snap_ctrl=new SnappingControl(edit_layer, edit_layer, false);
+							VectorLayer[] snapping_layers={edit_layer , selectable_boxes_layer };
+							SnappingControl snap_ctrl=new SnappingControl(edit_layer, snapping_layers, false);
 							snap_ctrl.activate();
 							map.addControl(snap_ctrl);
 							
@@ -126,18 +128,18 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 		edit_layer.setVisibility(false);
 		
 		// add vector layer with some boxes to demonstrate the modify feature feature
-		VectorLayer vl2=new VectorLayer("selectable boxes");
-		map.addLayer(vl2);
+		selectable_boxes_layer=new VectorLayer("selectable boxes");
+		map.addLayer(selectable_boxes_layer);
 	
 		VectorFeature vector_feature=new VectorFeature(new Bounds(-100,40,-80,60));
-		vl2.addFeatures(vector_feature);
+		selectable_boxes_layer.addFeatures(vector_feature);
 		vector_feature=new VectorFeature(new Bounds(-90,70,-60,80));
-		vl2.addFeatures(vector_feature);
+		selectable_boxes_layer.addFeatures(vector_feature);
 		
-		vl2.setVisibility(false);
+		selectable_boxes_layer.setVisibility(false);
 		
 		// setting up the Modify Feature Control
-		ModifyFeatureControl mfc=new ModifyFeatureControl(vl2);
+		ModifyFeatureControl mfc=new ModifyFeatureControl(selectable_boxes_layer);
 		
 		mfc.addMode(ModifyFeatureControl.DRAG);
 		mfc.addMode(ModifyFeatureControl.RESHAPE);
