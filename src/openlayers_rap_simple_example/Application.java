@@ -44,7 +44,11 @@ import org.polymap.rap.widget.openlayers.base_types.Size;
 import org.polymap.rap.widget.openlayers.base_types.Style;
 import org.polymap.rap.widget.openlayers.controls.*;
 import org.polymap.rap.widget.openlayers.features.VectorFeature;
+import org.polymap.rap.widget.openlayers.geometry.CurveGeometry;
+import org.polymap.rap.widget.openlayers.geometry.LineStringGeometry;
+import org.polymap.rap.widget.openlayers.geometry.LinearRingGeometry;
 import org.polymap.rap.widget.openlayers.geometry.PointGeometry;
+import org.polymap.rap.widget.openlayers.geometry.PolygonGeometry;
 
 /**
  * Simple Example on how to use the OpenLayers RAP Widget 
@@ -165,6 +169,19 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 		
 		vector_feature=new VectorFeature(new PointGeometry(-95,65),point_style_green);
 		styled_features_layer.addFeatures(vector_feature);
+		
+		// show some geometry
+		VectorLayer geometry_features_layer = new VectorLayer("Geometry Features");
+		map.addLayer( geometry_features_layer);
+		geometry_features_layer.setVisibility(false);
+		
+		PointGeometry[] point_list= { new PointGeometry(-99,60) ,new PointGeometry(-107,64),new PointGeometry(-130,70) };
+		VectorFeature linestring_feature=new VectorFeature(new LineStringGeometry(point_list));
+		geometry_features_layer.addFeatures(linestring_feature);
+		
+		PointGeometry[] poly_point_list= { new PointGeometry(-99,30) ,new PointGeometry(-107,44),new PointGeometry(-130,50) };
+		VectorFeature poly_feature=new VectorFeature(new PolygonGeometry(new LinearRingGeometry(poly_point_list)));
+		geometry_features_layer.addFeatures(poly_feature);
 		
 		// setting up the Modify Feature Control
 		ModifyFeatureControl mfc=new ModifyFeatureControl(selectable_boxes_layer);
