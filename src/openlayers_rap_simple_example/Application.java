@@ -123,11 +123,21 @@ public class Application implements IEntryPoint,OpenLayersEventListener {
 		map.setCenter(-100.0, 40.0);
 		
 		// add some controls
-		map.addControl(new LayerSwitcherControl());
+		LayerSwitcherControl layer_switcher=new LayerSwitcherControl();
+		
+		map.addControl(layer_switcher);
+		layer_switcher.maximizeControl();
+		
 		map.addControl(new MouseDefaultsControl());
 		map.addControl(new KeyboardDefaultsControl());
 		map.addControl(new PanZoomBarControl());
-
+		map.addControl(new ScaleControl());
+		map.addControl(new ScaleLineControl());
+		
+		OverviewMapControl overview=new OverviewMapControl();
+		map.addControl(overview);
+		overview.maximizeControl();
+				
 		// add vector layer to have a layer the user can edit
 		edit_layer=new VectorLayer("edit layer");
 		map.addLayer(edit_layer);
