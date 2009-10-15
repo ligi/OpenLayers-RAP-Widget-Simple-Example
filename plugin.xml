@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.rap.ui.entrypoint">
       <entrypoint
-            class="openlayers_rap_simple_example.Application"
+            class="org.polymap.openlayers.rap.widget.example.simple.Application"
             parameter="map_example"
             id="openlayers_rap_simple_example.Application">
       </entrypoint>

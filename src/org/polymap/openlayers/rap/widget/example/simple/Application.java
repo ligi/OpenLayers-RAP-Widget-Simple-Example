@@ -20,7 +20,7 @@
  *
  */
 
-package openlayers_rap_simple_example;
+package org.polymap.openlayers.rap.widget.example.simple;
 
 import java.util.HashMap;
 
