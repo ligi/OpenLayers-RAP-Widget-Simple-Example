@@ -2,11 +2,12 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.rap.ui.entrypoint">
-      <entrypoint
-            class="org.polymap.openlayers.rap.widget.example.simple.Application"
-            parameter="map_example"
-            id="openlayers_rap_simple_example.Application">
-      </entrypoint>
+      point="org.eclipse.rap.ui.entrypoint">
+     <entrypoint
+        class="org.polymap.openlayers.rap.widget.example.simple.Application"
+        parameter="map_example"
+        id="openlayers_rap_simple_example.Application">
+     </entrypoint>
    </extension>
+
 </plugin>
