@@ -33,9 +33,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.polymap.openlayers.rap.widget.*;
 import org.polymap.openlayers.rap.widget.base.OpenLayersEventListener;
+import org.polymap.openlayers.rap.widget.base.OpenLayersObject;
 import org.polymap.openlayers.rap.widget.base_types.Bounds;
 import org.polymap.openlayers.rap.widget.base_types.Icon;
 import org.polymap.openlayers.rap.widget.base_types.LonLat;
+import org.polymap.openlayers.rap.widget.base_types.OpenLayersMap;
 import org.polymap.openlayers.rap.widget.base_types.Pixel;
 import org.polymap.openlayers.rap.widget.base_types.Size;
 import org.polymap.openlayers.rap.widget.base_types.Style;
@@ -58,14 +60,16 @@ import org.polymap.openlayers.rap.widget.marker.IconMarker;
 
 public class Application implements IEntryPoint, OpenLayersEventListener {
 
-	private OpenLayers map;
+	private OpenLayersMap map;
 	private VectorLayer edit_layer;
 	private EditingToolbarControl edit_toolbar;
 	private VectorLayer selectable_boxes_layer;
 
 	OverviewMapControl overview = null;
 
-	public void process_event(String event_name, HashMap<String, String> payload) {
+	public void process_event(OpenLayersObject obj, String event_name,
+			HashMap<String, String> payload) {
+		System.out.println("event from" + obj);
 		if (event_name.equals("changebaselayer")) {
 			System.out
 					.println("client changed baselayer to '"
@@ -112,9 +116,10 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 		Shell shell = new Shell(display, SWT.SHELL_TRIM);
 		shell.setLayout(new FillLayout());
 		shell.setText("OpenLayers Simple Example");
-	
+
 		// create the OpenLayers widget
-		map = new OpenLayers(shell, SWT.NONE);
+		OpenLayers widget = new OpenLayers(shell, SWT.NONE);
+		map = widget.getMap();
 
 		HashMap<String, String> payload_map = new HashMap<String, String>();
 		payload_map.put("layername", "event.layer.name");
@@ -126,22 +131,20 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 
 		map.events.register(this, "changelayer", payload_map);
 
-		
 		// create and add a WMS layer
 		WMSLayer wms_layer = new WMSLayer("polymap WMS",
 				"http://www.polymap.de/geoserver/wms?",
-				"states,tasmania_water_bodies");
+				"states,tasmania_state_boundaries,tasmania_roads,tasmania_water_bodies");
+
 		map.addLayer(wms_layer);
-	
 
 		// create and add a WMS layer with opacity
 		WMSLayer wms_layer2 = new WMSLayer("OpenLayers WMS",
-				"http://labs.metacarta.com/wms/vmap0?",
-				"basic");
+				"http://labs.metacarta.com/wms/vmap0?", "basic");
 		wms_layer2.setIsBaseLayer(false);
 		wms_layer2.setOpacity(0.2);
 		map.addLayer(wms_layer2);
-		
+
 		// add a ImageLayer with external URL
 		Bounds bounds = new Bounds(-180, -88.759, 180, 88.759);
 		Size size = new Size(580, 288);
@@ -183,6 +186,9 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 
 		// add vector layer to have a layer the user can edit
 		edit_layer = new VectorLayer("edit layer");
+
+		edit_layer.events.register(this, "beforefeatureadded", null);
+
 		map.addLayer(edit_layer);
 		edit_layer.setVisibility(false);
 
