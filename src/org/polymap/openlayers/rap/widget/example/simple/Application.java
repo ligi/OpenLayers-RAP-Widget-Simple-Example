@@ -126,12 +126,22 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 
 		map.events.register(this, "changelayer", payload_map);
 
+		
 		// create and add a WMS layer
 		WMSLayer wms_layer = new WMSLayer("polymap WMS",
 				"http://www.polymap.de/geoserver/wms?",
 				"states,alk_mek_Flurstuecksflaechen");
 		map.addLayer(wms_layer);
+	
 
+		// create and add a WMS layer with opacity
+		WMSLayer wms_layer2 = new WMSLayer("OpenLayers WMS",
+				"http://labs.metacarta.com/wms/vmap0?",
+				"basic");
+		wms_layer2.setIsBaseLayer(false);
+		wms_layer2.setOpacity(0.2);
+		map.addLayer(wms_layer2);
+		
 		// add a ImageLayer with external URL
 		Bounds bounds = new Bounds(-180, -88.759, 180, 88.759);
 		Size size = new Size(580, 288);
@@ -141,7 +151,7 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 		map.addLayer(image_layer);
 
 		// add a ImageLayer with internal URL
-		Image image = Graphics.getImage("res/polymap_logo2.png", getClass()
+		Image image = Graphics.getImage("res/polymap_logo.png", getClass()
 				.getClassLoader());
 		ImageLayer image_layer_int = new ImageLayer("image layer int", image,
 				bounds);
@@ -245,6 +255,7 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 		mfc.addMode(ModifyFeatureControl.ROTATE);
 
 		map.addControl(mfc);
+
 		mfc.activate();
 
 		// showing box_layer
