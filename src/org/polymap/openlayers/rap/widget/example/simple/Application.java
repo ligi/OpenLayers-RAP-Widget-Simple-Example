@@ -118,7 +118,7 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 		shell.setText("OpenLayers Simple Example");
 
 		// create the OpenLayers widget
-		OpenLayers widget = new OpenLayers(shell, SWT.NONE);
+		OpenLayersWidget widget = new OpenLayersWidget(shell, SWT.NONE);
 		map = widget.getMap();
 
 		HashMap<String, String> payload_map = new HashMap<String, String>();
