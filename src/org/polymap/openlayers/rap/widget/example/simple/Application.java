@@ -130,7 +130,7 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 		// create and add a WMS layer
 		WMSLayer wms_layer = new WMSLayer("polymap WMS",
 				"http://www.polymap.de/geoserver/wms?",
-				"states,alk_mek_Flurstuecksflaechen");
+				"states,tasmania_water_bodies");
 		map.addLayer(wms_layer);
 	
 
