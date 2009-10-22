@@ -118,7 +118,7 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 		shell.setText("OpenLayers Simple Example");
 
 		// create the OpenLayers widget
-		OpenLayers widget = new OpenLayers(shell, SWT.NONE);
+		OpenLayersWidget widget = new OpenLayersWidget(shell, SWT.NONE);
 		map = widget.getMap();
 
 		HashMap<String, String> payload_map = new HashMap<String, String>();
@@ -130,6 +130,8 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 		payload_map.put("visibility", "event.layer.visibility");
 
 		map.events.register(this, "changelayer", payload_map);
+
+		
 
 		// create and add a WMS layer
 		WMSLayer wms_layer = new WMSLayer("polymap WMS",
@@ -186,7 +188,8 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 
 		// add vector layer to have a layer the user can edit
 		edit_layer = new VectorLayer("edit layer");
-
+		
+		
 		edit_layer.events.register(this, "beforefeatureadded", null);
 
 		map.addLayer(edit_layer);
@@ -195,8 +198,16 @@ public class Application implements IEntryPoint, OpenLayersEventListener {
 		// add vector layer with some boxes to demonstrate the modify feature
 		// feature
 		selectable_boxes_layer = new VectorLayer("selectable boxes");
+		
+		selectable_boxes_layer.events.register(this, "featureselected", null);
+		
+		selectable_boxes_layer.events.register(this, "featuremodified", null);
+		
 		map.addLayer(selectable_boxes_layer);
 
+		//map.events.register(this, "click", new HashMap<String,String>()  {{ put("x",selectable_boxes_layer.getJSObjRef()+".getFeatureFromEvent(event)"); }});
+
+		
 		VectorFeature vector_feature = new VectorFeature(new Bounds(-100, 40,
 				-80, 60).toGeometry());
 		selectable_boxes_layer.addFeatures(vector_feature);
